@@ -19,7 +19,7 @@ if (Meteor.isServer) {
 
   // This method will trigger the streamer
   Meteor.methods({
-    "twitter.stream"(query) {
+    "twitter.stream"(query, stop) {
       console.log("Twitter search" + query);
 
       // Create the Twitter object
@@ -34,20 +34,28 @@ if (Meteor.isServer) {
         console.log("Stopping previous stream");
         stream.destroy();
         // Remove all the tweets
-        Tweets.remove({});
+        // if(!stop){
+          Tweets.remove({});
+        //}
       }
       // Colombia
+      if(!stop){
       let locations = "-79.12,-4.23,-66.85,12.59";
       stream = client.stream("statuses/filter", {track: query, locations:locations});
       stream.on("data", Meteor.bindEnvironment(function(tweet) {
         // resolve(tweet);
+        console.log(tweet.coordinates);
+        if(tweet.coordinates){
         Tweets.insert(tweet);
+        }
       }));
 
       stream.on("error", function(error) {
         console.log(error);
         throw Meteor.Error(error);
       });
+      }
     }// twitter.stream
+
   }); //Meteor.methods
 }

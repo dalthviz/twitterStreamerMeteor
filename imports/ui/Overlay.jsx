@@ -18,10 +18,18 @@ export default class Overlay extends Component {
 
 	componentWillUpdate(newProps){
 		//tweets.coordinates.coordinates
-		if(newProps.tweets){
-			if(this.props.getProjection){
-          this.props.getProjection()(newProps.tweets.coordinates.coordinates);
-			}
+		let ctx = this.canvas.getContext("2d");
+		ctx.fillStyle="#FF0000";
+		if(this.props.getFlow()){
+					ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+					this.props.setFlow(false);
+		}
+		if(newProps.tweets.length > 0){
+          coordinates = this.props.getProjection()(newProps.tweets[0].coordinates.coordinates);
+					console.log(coordinates);
+					ctx.fillRect(coordinates[0],coordinates[1],5,5);
+					this.props.increaseCount();
+
 		}
 	}
 	componentDidMount(){
@@ -34,10 +42,10 @@ export default class Overlay extends Component {
 
 	render() {
 		return (
-			<div className="canvas" width="600" height="600">
-				<canvas
+
+				<canvas className="overlay_canvas" width="600" height="600"
 					ref={(canvas) => {this.canvas = canvas; }}>
 				</canvas>
-			</div>);
+			);
 	}
 }

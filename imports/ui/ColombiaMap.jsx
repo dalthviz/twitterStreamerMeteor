@@ -31,7 +31,7 @@ export default class ColombiaMap extends Component {
 		  .translate([width / 2, height / 2]);
 
 		this.props.setProjection(this.projection);
-		
+
 		var path = d3.geo.path()
 		  .projection(this.projection);
 
@@ -263,10 +263,9 @@ export default class ColombiaMap extends Component {
 
 	render() {
 		return (
-			<div className="colombiaMap">
-				<svg
+				<svg className="colombiaMap"
 					ref={(svg) => {this.svg = svg; }}>
 				</svg>
-			</div>);
+			);
 	}
 }
