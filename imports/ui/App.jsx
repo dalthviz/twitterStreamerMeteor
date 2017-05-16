@@ -3,13 +3,30 @@ import {PropTypes} from "prop-types";
 import { Meteor } from "meteor/meteor";
 import { createContainer} from "meteor/react-meteor-data"
 
+import {ColombiaMap} from "./ColombiaMap.jsx";
+
+import {Overlay} from "./Overlay.jsx";
 import TweetsResults from "./TweetsResults.jsx";
 import {Tweets} from "../api/Tweets.js";
 
+
+//SetProjection como props a colombiamap
+//Get projectinon
 export class App extends Component {
   constructor(props) {
     super(props);
+    this.projection: = null;
 
+  }
+
+  setProjection(projection){
+
+    this.projection = projection});
+
+  }
+
+  getProjection(){
+    return this.projection;
   }
 
   changeQuery(evt) {
@@ -29,16 +46,25 @@ export class App extends Component {
     console.log("render!");
     return (
       <div>
-        <input type="text" onKeyPress={this.changeQuery.bind(this)} placeholder="Query"/>
+         {/* <input type="text" onKeyPress={this.changeQuery.bind(this)} placeholder="Query"/>
         { this.props && this.props.err ?
           <div>Error: {this.props.err}</div> :
           <span></span>
-        }
-        <h2>Results:</h2>
+        } */}
+        {/* <h2>Map of Colombia</h2>
+        <ColombiaMap setProjection={this.setProjection.bind(this)}
+          width="600"
+          height="600"
+          data={{RISARALDA:10, CALDAS:12}}
+        ></ColombiaMap> */}
+
+       {/* <Overlay id="overlay" getProjection= {this.getProjection.bind(this)} tweets={this.props.tweets}/> */}
+
+        {/* <h2>Results:</h2>
         {this.props && this.props.tweets ?
           <TweetsResults tweets={this.props.tweets}/> :
           <p>Enter a query</p>
-        }
+        } */}
 
       </div>
     );
