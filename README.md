@@ -2,7 +2,7 @@
 
 An application, base on the [simple boilerplate](https://github.com/john-guerra/twitterStreamerMeteor) for a Meteor 1.4 Twitter streamer application with React, that use the geo-location of the tweets to put them into a map, specifically a [map of Colombia](https://github.com/john-guerra/ColombiaVisualizationReact), and some other things that you can see in detail in the features list above.
 
-Here a demo of the [application]()
+Here a demo of the [application](https://tweetstreammap.herokuapp.com/)
 
 ## Setting up environment variables
 
