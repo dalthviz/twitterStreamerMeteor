@@ -100,12 +100,13 @@ export class App extends Component {
     }
     // "this" will change in the method call, so I need to save it
     let component = this;
-    this.count = 0;
-    this.flow = true;
     console.log(evt.target.value);
     this.start();
     Meteor.call("twitter.delete");
     Meteor.call("twitter.stream", evt.target.value);
+
+    this.count = 0;
+    this.flow = true;
 
   }
 
@@ -157,7 +158,7 @@ export class App extends Component {
          </div>
 
         </div>
-        <h2>Results:</h2>
+        <h2 className="result">Results:</h2>
           {this.props && this.props.tweets ?
             <TweetsResults tweets={this.props.tweets}/> :
               <p>Enter a query</p>
