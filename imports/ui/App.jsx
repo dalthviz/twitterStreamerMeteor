@@ -23,7 +23,9 @@ export class App extends Component {
     this.endTime = null;
     this.timeDiffS = "";
     this.perTweet = "";
+    this.state={stat: false}
   }
+
 
   setProjection(projection){
 
@@ -48,6 +50,7 @@ export class App extends Component {
     if(this.input){
       console.log(this.input);
     query = this.input;
+    Meteor.call("twitter.delete");
     Meteor.call("twitter.stream", query);
     this.flow = true;
     this.count = 0;
@@ -70,6 +73,7 @@ export class App extends Component {
     this.timeDiffS = "";
     this.perTweet = "";
     this.startTime = new Date();
+    this.setState({stat: false});
   };
 
   end() {
@@ -83,8 +87,10 @@ export class App extends Component {
   console.log(timeDiff);
   let seconds = Math.round(timeDiff % 60);
   this.timeDiffS = seconds + " sec";
+  console.log(this.timeDiffS);
   let secondsT = Math.round(seconds/this.count % 60);
   this.perTweet = secondsT + " sec";
+  this.setState({stat: true});
 }
 
   changeQuery(evt) {
@@ -97,7 +103,8 @@ export class App extends Component {
     this.count = 0;
     this.flow = true;
     console.log(evt.target.value);
-    this.start()
+    this.start();
+    Meteor.call("twitter.delete");
     Meteor.call("twitter.stream", evt.target.value);
 
   }
@@ -106,13 +113,14 @@ export class App extends Component {
   render() {
     console.log("render!");
     return (
-      <div >
+      <div id="all">
         <div >
           <div>
 
           <h2>Tweets in Colombia</h2>
           </div>
-          <ColombiaMap setProjection={this.setProjection.bind(this)}
+          <ColombiaMap
+            setProjection={this.setProjection.bind(this)}
             width="600"
             height="600"
             data={{"SANTAFE DE BOGOTA D.C":10}}
@@ -123,6 +131,7 @@ export class App extends Component {
             setFlow={this.setFlow.bind(this)}
             getProjection= {this.getProjection.bind(this)}
             tweets={this.props.tweets}/>
+          <img className="back_map" width="600" height="600" src="map.png"/>
         </div>
         <div  className="search">
           <input onChange={(input) => {this.input = input.target.value; }} type="text" onKeyPress={this.changeQuery.bind(this)} placeholder=""/>
@@ -132,26 +141,27 @@ export class App extends Component {
          }
          <button onClick={this.startStream.bind(this)} >Start Stream</button>
          <button onClick={this.stopStream.bind(this)} >Stop Stream</button>
+         <button id="save_image_locally">Save as PNG</button>
 
          <div className="stats">
            <strong>Some stats:</strong><br/>
            <label>Count: {this.count}</label><br/>
-           {this.timeDiffS ?
+           {this.state.stat ?
              <div>
                <label>Elapsed time: {this.timeDiffS}</label><br/>
-               <label>Time per publish tweet: {this.perTweet}</label>
+               <label>Time per published tweet: {this.perTweet}</label>
              </div>
              : <span></span>
 
            }
          </div>
 
-           {/* <h2>Results:</h2>
+        </div>
+        <h2>Results:</h2>
           {this.props && this.props.tweets ?
             <TweetsResults tweets={this.props.tweets}/> :
-            <p>Enter a query</p>
-          } */}
-        </div>
+              <p>Enter a query</p>
+          }
       </div>
     );
   }

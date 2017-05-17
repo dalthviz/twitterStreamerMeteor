@@ -84,6 +84,7 @@ export default class ColombiaMap extends Component {
 		      .on('mouseover', mouseover)
 		      .on('mouseout', mouseout)
 		      .on('click', clicked);
+
 		});
 
 		// Get province name

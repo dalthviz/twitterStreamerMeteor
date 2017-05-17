@@ -14,7 +14,7 @@ export const Tweets = new Mongo.Collection("tweets");
 // Twitter streamer should run only on the server
 if (Meteor.isServer) {
   Meteor.publish("tweets", function tweetsPublication() {
-    return Tweets.find({}, {sort: {created_at: -1}, limit:10});
+    return Tweets.find({}, {sort: {created_at: -1}, limit:7});
   });
 
   // This method will trigger the streamer
@@ -34,13 +34,14 @@ if (Meteor.isServer) {
         console.log("Stopping previous stream");
         stream.destroy();
         // Remove all the tweets
-        // if(!stop){
+        if(!stop){
           Tweets.remove({});
-        //}
+        }
       }
       // Colombia
       if(!stop){
       let locations = "-79.12,-4.23,-66.85,12.59";
+      query = query || " ";
       stream = client.stream("statuses/filter", {track: query, locations:locations});
       stream.on("data", Meteor.bindEnvironment(function(tweet) {
         // resolve(tweet);
@@ -56,6 +57,9 @@ if (Meteor.isServer) {
       });
       }
     }// twitter.stream
-
+    ,
+    "twitter.delete"(){
+      Tweets.remove({});
+    }
   }); //Meteor.methods
 }

@@ -15,29 +15,25 @@ export default class Overlay extends Component {
 		return this.canvas;
 	}
 
-
 	componentWillUpdate(newProps){
 		//tweets.coordinates.coordinates
 		let ctx = this.canvas.getContext("2d");
 		ctx.fillStyle="#FF0000";
+		ctx.font="8px Verdana";
 		if(this.props.getFlow()){
 					ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
 					this.props.setFlow(false);
 		}
 		if(newProps.tweets.length > 0){
-          coordinates = this.props.getProjection()(newProps.tweets[0].coordinates.coordinates);
+					let index = newProps.tweets.length - 1;
+					let last_tweet = newProps.tweets[index];
+          coordinates = this.props.getProjection()(last_tweet.coordinates.coordinates);
 					console.log(coordinates);
 					ctx.fillRect(coordinates[0],coordinates[1],5,5);
+					ctx.fillText(last_tweet.user.screen_name,coordinates[0],coordinates[1]);
 					this.props.increaseCount();
 
 		}
-	}
-	componentDidMount(){
-
-	}
-
-	paint(){
-
 	}
 
 	render() {

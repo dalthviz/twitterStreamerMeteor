@@ -22,3 +22,31 @@
 .stats{
   text-align: right;
 }
+
+.back_map{
+  position: absolute;
+  z-index: -1;
+}
+
+.tweetResults{
+  top: 66px;
+  float:right;
+  width: 50%;
+  height: 500px;
+  overflow-y: auto;
+}
+h2{
+  align-self: stretch;
+}
+
+.info{
+  float:left;
+  height: 48px;
+}
+.imagen_p{
+  float: left;
+}
+.tweet{
+  border-style: dashed;
+  margin: 1px;
+}
